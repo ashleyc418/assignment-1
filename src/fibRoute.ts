@@ -3,15 +3,18 @@
 import { Request, Response } from "express";
 import fibonacci from "./fib";
 
-export default (req: Request, res: Response) => {
-  const { num } = req.params.num; // error Unsafe assignment of an `any` value, Unsafe member access .params on an `any` value
+export default (req: Request, res: Response): void => {
+  const numStr: string = req.params.num;
+  const num = parseInt(numStr, 10);
 
-  const fibN = fibonacci(parseInt(num, 10)); // error Unsafe argument of type `any` assigned to a parameter of type `string`
-  let result = `fibonacci(${num}) is ${fibN}`; // error Invalid type "any" of template literal expression
+  const fibN = fibonacci(num);
+  let result: string;
 
   if (fibN < 0) {
-    result = `fibonacci(${num}) is undefined`; // error Invalid type "any" of template literal expression
+    result = `fibonacci(${num}) is undefined`;
+  } else {
+    result = `fibonacci(${num}) is ${fibN}`;
   }
 
-  res.send(result); // error Unsafe member access .send on an `any` value, Unsafe call of an `any` typed value
+  res.send(result);
 };
